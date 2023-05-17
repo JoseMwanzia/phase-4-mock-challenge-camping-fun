@@ -1,5 +1,5 @@
 class CampersController < ApplicationController
-
+rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
     # GET /campers
     def index 
@@ -23,6 +23,13 @@ class CampersController < ApplicationController
 
     def camper_params
         params.permit(:name, :age)
+    end
+
+    def render_not_found_response
+        render json: {
+            error: "Camper not found"
+          }, 
+          status: :not_found
     end
    
 end

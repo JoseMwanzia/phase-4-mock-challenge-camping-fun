@@ -1,4 +1,5 @@
 class ActivitiesController < ApplicationController
+rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
     # GET /activities
     def index
@@ -13,5 +14,13 @@ class ActivitiesController < ApplicationController
         head :no_content
     end
 
+    private 
+
+    def render_not_found_response
+        render json: {
+            error: "Activity not found"
+          }, 
+          status: :not_found
+    end
 
 end
